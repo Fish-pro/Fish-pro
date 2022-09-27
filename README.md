@@ -11,3 +11,6 @@
 
 ## Top langs
 [![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=Fish-pro)](https://github.com/anuraghazra/github-readme-stats)
+
+## Readme Card
+[![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=Fish-pro&repo=application)](https://github.com/anuraghazra/github-readme-stats)
