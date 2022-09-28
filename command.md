@@ -67,3 +67,54 @@ systemctl start/stop docker
 ```shell
 systemctl enable/disable docker
 ```
+
+## go跨平台编译
+```shell
+CGO_ENABLEd=1 GOOS=linux GOARCH=arm64 go build -o main main.go
+```
+
+## 修改网关
+```shell
+nmtui
+```
+
+## 端口冲突检查
+```shell
+lsof -i:9090
+netstat -nap|grep :9090
+```
+
+## kubernetes etcd操作
+```shell
+kubectl -n kube-system exec -it <pod_name>  -- /bin/bash
+1.ETCDCTL_API=3 etcdctl --cert /etc/etcd/peer.crt --key /etc/etcd/peer.key --cacert /etc/etcd/ca.crt --endpoints https://20.8.247.55:2379 get /kubernetes.io/namespaces/<namespace_name> 
+2.kubectl get ns <namespace_name> -o json
+3. 删除deleteTimestample,修改Termination--->Active
+4. 将json内容折为一行
+5. 1.ETCDCTL_API=3 etcdctl --cert /etc/etcd/peer.crt --key /etc/etcd/peer.key --cacert /etc/etcd/ca.crt --endpoints https://20.8.247.55:2379 put /kubernetes.io/namespaces/<namespace_name>  'json一行内容'
+```
+
+## 管道排序
+```shell
+kubectl top po | grep -v NAME | sort -k 2rn
+```
+
+## 节点容器操作
+```shell
+docker ps -a | grep <pod>
+docker top <continer_id>
+docker inspect <continer_id> | grep -i pid
+nsenter -t pid iftop
+```
+
+## 查看负载转换
+```shell
+ipvsadm -Ln
+```
+
+## 分片压缩
+```shell
+tar zcvf - dsp-appserver.tar.gz | split -b 20m - dsp-appserver.tar.gz
+cat dsp-appserver.tar.gz* | tar zxvf -
+```
+
