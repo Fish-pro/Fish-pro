@@ -6,4 +6,4 @@
 
 ## Top Langs
 
-[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=Fish-pro&card_width=1024)]
+![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=Fish-pro&card_width=1024)
