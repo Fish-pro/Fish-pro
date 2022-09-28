@@ -118,3 +118,17 @@ tar zcvf - dsp-appserver.tar.gz | split -b 20m - dsp-appserver.tar.gz
 cat dsp-appserver.tar.gz* | tar zxvf -
 ```
 
+## DCE 获取集群证书
+```shell
+ps aux | grep kube-apiserver
+cd /proc/2979/root/etc/ssl/private/
+kubectl get ep
+kubectl --kubeconfig /tmp/config config set-cluster dce --server=https://10.6.124.52:16443 --certificate-authority=ca.crt --embed-certs
+kubectl --kubeconfig /tmp/config config set-credentials kube-admin --client-certificate kube-admin.crt --client-key kube-admin.key --embed-certs
+kubectl --kubeconfig /tmp/config config set-context dce --cluster dce --user kube-admin
+kubectl --kubeconfig /tmp/config config use-context dce
+kubectl --kubeconfig /tmp/config get no
+kubectl --kubeconfig /tmp/config config view
+cat /tmp/config
+```
+
