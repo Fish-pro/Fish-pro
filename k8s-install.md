@@ -93,8 +93,9 @@ systemctl enable containerd  ; systemctl restart containerd
 
 ### 安装containerd客户端工具nerdctl
 
-到下面的连接下载最新版的nerdctl，本实验时最新版是0.20.0版本的。
+到下面的连接下载最新版的nerdctl，本实验时最新版是0.20.0版本的
 https://github.com/containerd/nerdctl/releases
+
 先在master上下载，然后同步到node01 node02即可
 ```shell
 tar zxf nerdctl-0.20.0-linux-amd64.tar.gz -C /usr/bin/ nerdctl
@@ -103,6 +104,7 @@ scp /usr/bin/nerdctl node02:/usr/bin/
 ```
 到下面的地址下载nerdctl所需要的cni插件
 https://github.com/containernetworking/plugins/releases
+
 先在master上做，然后同步到node01 node02即可
 ```shell
 mkdir -p /opt/cni/bin/
@@ -152,7 +154,8 @@ sysctl -p /etc/sysctl.d/k8s.conf
 ```shell
 yum list --showduplicates kubeadm --disableexcludes=kubernetes
 ```
-在本试验时最新的版本是v1.24.1，所以本次就安装v1.24.1版本的。
+在本试验时最新的版本是v1.24.1，所以本次就安装v1.24.1版本的
+
 所有节点上安装软件包
 ```shell
 yum install -y kubelet-1.24.1-0 kubeadm-1.24.1-0 kubectl-1.24.1-0  --disableexcludes=kubernetes
@@ -209,6 +212,7 @@ wget -O calico.yaml https://docs.projectcalico.org/manifests/calico.yaml
             value: "10.244.0.0/16"
 ```
 同`kubeadm init`中`--pod-network-cidr`参数
+
 在master上安装calico，不需要在node01 node02上做什么
 ```shell
 kubectl apply -f calico.yaml
