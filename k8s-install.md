@@ -10,7 +10,7 @@
 
 ### 所有机器上配置于host
 ```shell
-[root@10-29-14-45 ~]# cat >> /etc/hosts << EOF
+cat >> /etc/hosts << EOF
 10.29.14.45 master 
 10.29.14.47 node01
 10.29.14.49 node02
@@ -19,32 +19,32 @@ EOF
 
 ### 在所有节点上关闭swap分区
 ```shell
-[root@10-29-14-45 ~]# swapoff -a ; sed -i '/fstab/d' /etc/fstab
+swapoff -a ; sed -i '/fstab/d' /etc/fstab
 ```
 
 ### 所有节点关闭防火墙
 ```shell
-[root@10-29-14-45 ~]# systemctl status firewalld.service
-[root@10-29-14-45 ~]# systemctl stop firewalld.service
+systemctl status firewalld.service
+systemctl stop firewalld.service
 ```
 
 
-### s所有节点更新yum源
-```
-// 先用已有的yum源安装wget
-[root@10-29-14-45 ~]# yum install wget
-[root@10-29-14-45 ~]# rm -rf /etc/yum.repos.d/*  ; wget ftp://ftp.rhce.cc/k8s/* -P /etc/yum.repos.d/
-[root@10-29-14-45 ~]# yum clean all
+### 所有节点更新yum源
+```shell
+# 先用已有的yum源安装wget
+yum install wget
+rm -rf /etc/yum.repos.d/*  ; wget ftp://ftp.rhce.cc/k8s/* -P /etc/yum.repos.d/
+yum clean all
 ```
 
 ### 安装containerd
 ```shell
-[root@10-29-14-45 ~]# yum install containerd.io cri-tools  -y
-[root@10-29-14-45 ~]# crictl config runtime-endpoint unix:///var/run/containerd/containerd.sock
+yum install containerd.io cri-tools  -y
+crictl config runtime-endpoint unix:///var/run/containerd/containerd.sock
 ```
 master上生成配置文件/etc/containerd/config.toml
 ```
-[root@10-29-14-45 ~]# containerd config default > /etc/containerd/config.toml
+containerd config default > /etc/containerd/config.toml
 ```
 编辑/etc/containerd/config.toml
 + 搜索mirrors，把
@@ -83,12 +83,12 @@ sandbox_image = "registry.aliyuncs.com/google_containers/pause:3.7"
 ```
 同步更改到node01 node01
 ```shell
-[root@10-29-14-45 ~]# scp /etc/containerd/config.toml node01:/etc/containerd/
-[root@10-29-14-45 ~]# scp /etc/containerd/config.toml node02:/etc/containerd/
+scp /etc/containerd/config.toml node01:/etc/containerd/
+scp /etc/containerd/config.toml node02:/etc/containerd/
 ```
 所有节点重启containerd服务，并设置开机自动启动
 ```shell
-[root@10-29-14-45 ~]# systemctl enable containerd  ; systemctl restart containerd
+systemctl enable containerd  ; systemctl restart containerd
 ```
 
 ### 安装containerd客户端工具nerdctl
@@ -97,46 +97,46 @@ sandbox_image = "registry.aliyuncs.com/google_containers/pause:3.7"
 https://github.com/containerd/nerdctl/releases
 先在master上下载，然后同步到node01 node02即可
 ```shell
-[root@10-29-14-45 ~]# tar zxf nerdctl-0.20.0-linux-amd64.tar.gz -C /usr/bin/ nerdctl
-[root@10-29-14-45 ~]# scp /usr/bin/nerdctl node01:/usr/bin/
-[root@10-29-14-45 ~]# scp /usr/bin/nerdctl node02:/usr/bin/
+tar zxf nerdctl-0.20.0-linux-amd64.tar.gz -C /usr/bin/ nerdctl
+scp /usr/bin/nerdctl node01:/usr/bin/
+scp /usr/bin/nerdctl node02:/usr/bin/
 ```
 到下面的地址下载nerdctl所需要的cni插件
 https://github.com/containernetworking/plugins/releases
 先在master上做，然后同步到node01 node02即可
 ```shell
-[root@10-29-14-45 ~]# mkdir -p /opt/cni/bin/
-[root@10-29-14-45 ~]# tar zxf cni-plugins-linux-amd64-v1.1.1.tgz -C /opt/cni/bin/
-[root@10-29-14-45 ~]# scp -r /opt/cni/ vms72:/opt/
+mkdir -p /opt/cni/bin/
+tar zxf cni-plugins-linux-amd64-v1.1.1.tgz -C /opt/cni/bin/
+scp -r /opt/cni/ vms72:/opt/
 ```
 修改/etc/profile，在第二行添加如下两行内容
 ```
-[root@10-29-14-45 ~]# head -3 /etc/profile
+head -3 /etc/profile
 # /etc/profile
 source <(nerdctl completion bash)
 export CONTAINERD_NAMESPACE=k8s.io
 ```
 让设置生效
 ```shell
-[root@10-29-14-45 ~]# source /etc/profile
+source /etc/profile
 ```
 
 ### 加载模块及修改参数
 
 在所有节点上加载模块
 ```
-[root@10-29-14-45 ~]# modprobe overlay ; modprobe br_netfilter
+modprobe overlay ; modprobe br_netfilter
 ```
 在所有机器上执行下面的命令，目的是系统重启时模块能自动加载
 ```shell
-[root@10-29-14-45 ~]# cat > /etc/modules-load.d/containerd.conf <<EOF
+cat > /etc/modules-load.d/containerd.conf <<EOF
 overlay
 br_netfilter
 EOF
 ```
 在所有机器上执行下面的命令，目的是实现重启系统后，参数也能继续生效
 ```shell
-[root@10-29-14-45 ~]# cat <<EOF > /etc/sysctl.d/k8s.conf
+cat <<EOF > /etc/sysctl.d/k8s.conf
 net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
 net.ipv4.ip_forward = 1
@@ -150,31 +150,31 @@ sysctl -p /etc/sysctl.d/k8s.conf
 ### 安装kubernetes
 查看当前源里有哪些版本
 ```shell
-[root@10-29-14-45 ~]# yum list --showduplicates kubeadm --disableexcludes=kubernetes
+yum list --showduplicates kubeadm --disableexcludes=kubernetes
 ```
 在本试验时最新的版本是v1.24.1，所以本次就安装v1.24.1版本的。
 所有节点上安装软件包
 ```shell
-[root@10-29-14-45 ~]# yum install -y kubelet-1.24.1-0 kubeadm-1.24.1-0 kubectl-1.24.1-0  --disableexcludes=kubernetes
+yum install -y kubelet-1.24.1-0 kubeadm-1.24.1-0 kubectl-1.24.1-0  --disableexcludes=kubernetes
 ```
 所有节点上启动kubelet并设置开机自动启动
 ```shell
-[root@10-29-14-45 ~]# systemctl enable kubelet --now
+systemctl enable kubelet --now
 ```
 此时kubelet状态是activating的，不是active的
 ```shell
-[root@10-29-14-45 ~]# systemctl is-active kubelet
+systemctl is-active kubelet
 activating
 ```
 在master上初始化集群
 ```shell
-[root@10-29-14-45 ~]# kubeadm init --image-repository registry.aliyuncs.com/google_containers --kubernetes-version=v1.24.1 --pod-network-cidr=10.244.0.0/16
+kubeadm init --image-repository registry.aliyuncs.com/google_containers --kubernetes-version=v1.24.1 --pod-network-cidr=10.244.0.0/16
 ```
 等待一会之后，在master执行提示的命令
 ```shell
-[root@10-29-14-45 ~]# mkdir -p $HOME/.kube 
-[root@10-29-14-45 ~]# sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config 
-[root@10-29-14-45 ~]# sudo chown $(id -u):$(id -g) $HOME/.kube/config 
+mkdir -p $HOME/.kube 
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config 
+sudo chown $(id -u):$(id -g) $HOME/.kube/config 
 ```
 在node01上加入集群
 ```shell
@@ -186,7 +186,7 @@ activating
 ```
 在master上查看节点状态。
 ```shell
-[root@10-29-14-45 ~]# kubectl get no
+kubectl get no
 NAME          STATUS      ROLES           AGE    VERSION
 10-29-14-45   NotReady    control-plane   13m    v1.24.1
 10-29-14-47   NotReady    <none>          5m     v1.24.1
@@ -196,7 +196,7 @@ NAME          STATUS      ROLES           AGE    VERSION
 ### 安装calico
 到下面链接下载最新版的calico.yaml
 ```shell
-[root@10-29-14-45 ~]# wget -O calico.yaml https://docs.projectcalico.org/manifests/calico.yaml
+wget -O calico.yaml https://docs.projectcalico.org/manifests/calico.yaml
 ```
 将
 ```
@@ -211,11 +211,11 @@ NAME          STATUS      ROLES           AGE    VERSION
 同`kubeadm init`中`--pod-network-cidr`参数
 在master上安装calico，不需要在node01 node02上做什么
 ```shell
-[root@10-29-14-45 ~]# kubectl apply -f calico.yaml
+kubectl apply -f calico.yaml
 ```
 在master上再次查看节点状态
 ```shell
-[root@10-29-14-45 ~]# kubectl get no
+kubectl get no
 NAME          STATUS   ROLES           AGE    VERSION
 10-29-14-45   Ready    control-plane   111m   v1.24.1
 10-29-14-47   Ready    <none>          82m    v1.24.1
@@ -226,4 +226,3 @@ NAME          STATUS   ROLES           AGE    VERSION
 ```
 kubectl apply -f components.yaml
 ```
-
