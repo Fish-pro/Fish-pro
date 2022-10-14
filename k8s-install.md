@@ -1,4 +1,4 @@
-## kubernetesv1.24 install
+## kubernetes v1.24.1 install
 
 ### 主机信息
 ```
