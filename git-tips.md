@@ -43,6 +43,12 @@ git rebase --continue
 git commit --amend --author='Author Name <email@address.com>'
 ```
 
+## 添加签名
+```sh
+git rebase HEAD~1 --signoff
+git push --force-with-lease origin <branch name>
+```
+
 ## 远程删除了分支本地也想删除
 
 ```sh
