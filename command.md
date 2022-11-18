@@ -74,8 +74,29 @@ CGO_ENABLEd=1 GOOS=linux GOARCH=arm64 go build -o main main.go
 ```
 
 ## 修改网关
+网关信息：10.29.0.1
+### CentOS
 ```shell
 nmtui
+```
+ubuntu
+`vim /etc/netplan/ens192.yaml`
+```shell
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eno1:
+      dhcp4: false
+      dhcp6: false
+     addresses:
+      - 172.19.4.152/24 #修改为你的静态ip地址
+     routes:
+      - to: default
+        via: 172.19.4.1 #配置网关（原有gateway4已弃用）
+     nameservers:
+      addresses: [114.114.114.114]
+version: 2
 ```
 
 ## 端口冲突检查
