@@ -79,7 +79,7 @@ CGO_ENABLEd=1 GOOS=linux GOARCH=arm64 go build -o main main.go
 ```shell
 nmtui
 ```
-ubuntu
+Ubuntu
 `vim /etc/netplan/ens192.yaml`
 ```shell
 network:
