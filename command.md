@@ -10,9 +10,12 @@ tar -C /usr/local/ -xzf go1.18.linux-amd64.tar.gz
 ```
 3.将二进制文件添加到PATH中
 ```shell
+mkdir go
+```
+```shell
 cat > /etc/profile.d/go.sh << EOF
 export GOROOT=/usr/local/go
-export GOPATH=/data/go
+export GOPATH=/root/go
 export PATH=$PATH:$GOROOT/bin:$GOPATH
 export GO111MODULE="on" 
 export GOPROXY=https://goproxy.cn,direct
