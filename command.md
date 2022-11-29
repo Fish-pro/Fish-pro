@@ -76,6 +76,14 @@ systemctl enable/disable docker
 CGO_ENABLEd=1 GOOS=linux GOARCH=arm64 go build -o main main.go
 ```
 
+## ssh免密码登陆
+```shell
+# 生成公私钥
+ssh-keygen -t rsa 
+# 把公钥传递到远端机器
+ssh-copy-id root@york-ebpf
+```
+
 ## 修改网关
 网关信息：10.29.0.1
 ### CentOS
