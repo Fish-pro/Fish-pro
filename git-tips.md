@@ -48,6 +48,11 @@ git commit --amend --author='Author Name <email@address.com>'
 git rebase HEAD~1 --signoff
 git push --force-with-lease origin <branch name>
 ```
+or
+```sh
+git commit --amend --signoff
+git push -f
+```
 
 ## 远程删除了分支本地也想删除
 
