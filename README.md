@@ -5,4 +5,4 @@
 
 
 ## Contribs
-![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=Fish-pro)
+![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=Fish-pro&count_private=true)
