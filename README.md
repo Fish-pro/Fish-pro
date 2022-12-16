@@ -4,6 +4,5 @@
 - 🌱 I'm [Karmada](https://github.com/karmada-io/karmada) Community Member
 
 
-## Top Langs
-
-![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=Fish-pro&card_width=1024)
+## contribs
+![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=Fish-pro)
