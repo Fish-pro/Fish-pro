@@ -73,3 +73,6 @@
 
 10. the linter structcheck varcheck and deadcode are deprecated
   + https://github.com/open-policy-agent/gatekeeper/pull/2550
+
+11. make fsnotify event more readable
+  + https://github.com/istio/istio/pull/42578
