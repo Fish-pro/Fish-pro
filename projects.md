@@ -82,3 +82,4 @@
 
 13. fix networking.k8s.io/v1beta1 for ingress
   + https://github.com/cilium/cilium/pull/22968
+  + https://github.com/cilium/cilium/pull/22907/files
