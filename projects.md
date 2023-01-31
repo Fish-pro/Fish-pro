@@ -76,3 +76,6 @@
 
 11. make fsnotify event more readable
   + https://github.com/istio/istio/pull/42578
+
+12. fix:'go routine' should be 'goroutine'
+  + https://github.com/cilium/cilium/pull/22904
