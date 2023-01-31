@@ -8,7 +8,7 @@
 
 ### Second Level
 + [karmada-io/karmada](https://github.com/karmada-io/karmada)
-+ [goharbor/harbor](https://github.com/goharbor/harbor)]()
++ [goharbor/harbor](https://github.com/goharbor/harbor)
 + [helm/helm](https://github.com/helm/helm)
 + [vmware-tanzu/velero](https://github.com/vmware-tanzu/velero)
 + [open-policy-agent/gatekeeper](https://github.com/open-policy-agent/gatekeeper)
