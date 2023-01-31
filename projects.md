@@ -79,3 +79,6 @@
 
 12. fix:'go routine' should be 'goroutine'
   + https://github.com/cilium/cilium/pull/22904
+
+13. fix networking.k8s.io/v1beta1 for ingress
+  + https://github.com/cilium/cilium/pull/22968
