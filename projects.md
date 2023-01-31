@@ -70,3 +70,6 @@
 
 9. unnecessary package import rename
   + https://github.com/kyverno/kyverno/pull/6167
+
+10. the linter structcheck varcheck and deadcode are deprecated
+  + https://github.com/open-policy-agent/gatekeeper/pull/2550
