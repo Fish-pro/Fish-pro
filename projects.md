@@ -67,3 +67,6 @@
 
 8. klog format error
   + https://github.com/karmada-io/karmada/pull/3003
+
+9. unnecessary package import rename
+  + https://github.com/kyverno/kyverno/pull/6167
