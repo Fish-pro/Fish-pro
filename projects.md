@@ -14,16 +14,10 @@
 ## Change Tips
 
 1. remove `io/ioutil`
-
-  prs:
   + https://github.com/kubernetes-sigs/descheduler/pull/1030/files
 
 2. remove `github.com/pkg/errors`
-  
-  prs:
   + https://github.com/kubernetes/kubernetes/pull/113672/files
  
 3. comparison to bool
-  
-  prs:
   + https://github.com/cilium/cilium/pull/22588/files
