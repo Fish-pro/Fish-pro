@@ -83,3 +83,6 @@
 13. fix networking.k8s.io/v1beta1 for ingress
   + https://github.com/cilium/cilium/pull/22968
   + https://github.com/cilium/cilium/pull/22907/files
+
+14. an nginx
+  + https://github.com/kubernetes-sigs/kubespray/pull/9730
