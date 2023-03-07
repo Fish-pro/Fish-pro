@@ -283,4 +283,9 @@ func main() {
 
 ```bash
 go build
+sudo ./ebpf-demo
+```
+
+```bash
+sudo cat /sys/kernel/debug/tracing/trace
 ```
