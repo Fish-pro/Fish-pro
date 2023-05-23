@@ -38,13 +38,56 @@ yum clean all
 ```
 
 ### 安装containerd
-```shell
-yum install containerd.io cri-tools  -y
-crictl config runtime-endpoint unix:///var/run/containerd/containerd.sock
+下载包
+```bash
+wget https://github.com/containerd/containerd/releases/download/v1.7.0/containerd-1.7.0-linux-amd64.tar.gz
 ```
-
+解压到bin
+```bash
+tar xvf containerd-1.7.0-linux-amd64.tar.gz
+cp ./bin/* /usr/bin/
+```
+创建containerd systemd service启动管理文件
+```bash
+cat /usr/lib/systemd/system/containerd.service << EOF
+[Unit]
+Description=containerd container runtime
+Documentation=https://containerd.io
+After=network.target local-fs.target
+ 
+[Service]
+#uncomment to enable the experimental sbservice (sandboxed) version of containerd/cri integration
+#Environment="ENABLE_CRI_SANDBOXES=sandboxed"
+ExecStartPre=-/sbin/modprobe overlay
+ExecStart=/usr/bin/containerd
+ 
+Type=notify
+Delegate=yes
+KillMode=process
+Restart=always
+RestartSec=5
+# Having non-zero Limit*s causes performance problems due to accounting overhead
+# in the kernel. We recommend using cgroups to do container-local accounting.
+LimitNPROC=infinity
+LimitCORE=infinity
+LimitNOFILE=infinity
+# Comment TasksMax if your systemd version does not supports it.
+# Only systemd 226 and above support this version.
+TasksMax=infinity
+OOMScoreAdjust=-999
+ 
+[Install]
+WantedBy=multi-user.target
+EOF
+```
+启动containerd
+```bash
+systemctl enable containerd --now
+```
 master上生成配置文件/etc/containerd/config.toml
-```
+```bash
+mkdir /etc/containerd
+crictl config runtime-endpoint unix:///var/run/containerd/containerd.sock
 containerd config default > /etc/containerd/config.toml
 ```
 
