@@ -32,9 +32,7 @@ systemctl stop firewalld.service
 ### 所有节点更新yum源
 ```shell
 # 先用已有的yum源安装wget
-yum install wget
-rm -rf /etc/yum.repos.d/*  ; wget ftp://ftp.rhce.cc/k8s/* -P /etc/yum.repos.d/
-yum clean all
+yum install wget vim
 ```
 
 ### 安装containerd
@@ -49,7 +47,7 @@ cp ./bin/* /usr/bin/
 ```
 创建containerd systemd service启动管理文件
 ```bash
-cat /usr/lib/systemd/system/containerd.service << EOF
+cat <<EOF > /usr/lib/systemd/system/containerd.service
 [Unit]
 Description=containerd container runtime
 Documentation=https://containerd.io
@@ -206,14 +204,24 @@ sysctl -p /etc/sysctl.d/k8s.conf
 ```
 
 ### 安装kubernetes
+更新添加yum源
+```shell
+cat << EOF > /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes Repo
+baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/
+gpgcheck=1
+gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
+enabled=1
+EOF
+```
+
 查看当前源里有哪些版本
 ```shell
 yum list --showduplicates kubeadm --disableexcludes=kubernetes
 ```
 
-在本试验时最新的版本是v1.24.1，所以本次就安装v1.24.1版本的
-
-所有节点上安装软件包
+所有节点上安装软件包,指定特定版本
 ```shell
 yum install -y kubelet-1.24.1-0 kubeadm-1.24.1-0 kubectl-1.24.1-0  --disableexcludes=kubernetes
 ```
