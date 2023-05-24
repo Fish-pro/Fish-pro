@@ -137,6 +137,7 @@ scp /etc/containerd/config.toml node02:/etc/containerd/
 所有节点重启containerd服务，并设置开机自动启动
 ```shell
 systemctl enable containerd  ; systemctl restart containerd
+export CONTAINERD_NAMESPACE=k8s.io
 ```
 
 ### 安装containerd客户端工具nerdctl
