@@ -84,7 +84,7 @@ systemctl enable containerd --now
 ```
 master上生成配置文件/etc/containerd/config.toml
 ```bash
-mkdir /etc/containerd
+mkdir -p /etc/containerd
 crictl config runtime-endpoint unix:///var/run/containerd/containerd.sock
 containerd config default > /etc/containerd/config.toml
 ```
