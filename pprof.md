@@ -72,3 +72,33 @@ Entering interactive mode (type "help" for commands, "o" for options)
 
 另外方法一所运行的站点，实际上包含了方法二的内容（svg 图片），并且更灵活，因此非特殊情况，我们会直接使用方法一的方式运行站点来做观察和分析。
 
+## 通过测试用例做剖析
+
+首先我们将先前所编写的 Add 方法挪到独立的 package 中，命名为 add.go 文件，然后新建 add_test.go 文件，写入如下测试用例代码：
+
+```go
+func TestAdd(t *testing.T) {
+	_ = Add("go-programming-tour-book")
+}
+
+func BenchmarkAdd(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Add("go-programming-tour-book")
+	}
+}
+```
+
+在完成代码编写后，我们回到命令行窗口执行如下采集命令：
+
+```sh
+$ go test -bench=. -cpuprofile=cpu.profile
+```
+
+执行完毕后会在当前命令生成 cpu.profile 文件，然后只需执行 `go tool pprof cpu.profile` 命令就可以进行查看了
+另外除了对 CPU 进行剖析以外，我们还可以调整选项，对内存情况进行分析，如下采集命令：
+
+```sh
+$ go test -bench=. -memprofile=mem.profile
+```
+
+接下来和上面一样，执行 `go tool pprof mem.profile` 命令进行查看
