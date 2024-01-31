@@ -88,6 +88,8 @@ func BenchmarkAdd(b *testing.B) {
 }
 ```
 
+### CPU
+
 在完成代码编写后，我们回到命令行窗口执行如下采集命令：
 
 ```sh
@@ -95,6 +97,9 @@ $ go test -bench=. -cpuprofile=cpu.profile
 ```
 
 执行完毕后会在当前命令生成 cpu.profile 文件，然后只需执行 `go tool pprof cpu.profile` 命令就可以进行查看了
+
+### Memory
+
 另外除了对 CPU 进行剖析以外，我们还可以调整选项，对内存情况进行分析，如下采集命令：
 
 ```sh
