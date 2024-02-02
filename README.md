@@ -1,6 +1,10 @@
 ## About Me
 - 👋 Hi, I’m @Fish-pro
-- 👀 I mainly contribute to [Istio](https://github.com/istio/istio) [Kubernetes](https://github.com/kubernetes/kubernetes) [Karmada](https://github.com/karmada-io/karmada) [Kubeedge](https://github.com/kubeedge/kubeedge) with golang
+- 👀 I mainly use `golang` to contribute to the following projects：
+  + [Istio](https://github.com/istio/istio)
+  + [Kubernetes](https://github.com/kubernetes/kubernetes)
+  + [Karmada](https://github.com/karmada-io/karmada)
+  + [Kubeedge](https://github.com/kubeedge/kubeedge)
 
 ## My GitHub Status
 
